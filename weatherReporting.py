@@ -12,7 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from requests.exceptions import HTTPError
 
-# Provide user imput in json format
+# Provide user input in json format
 try:
     userInput = input("Please Provide the Json input:")
     # Extract the json data
@@ -20,7 +20,7 @@ try:
     city = (jsonToDict["city"])
     apiKey = (jsonToDict["appid"])
     variancePer = (jsonToDict["variance"]) / 100
-# Exception handeling for Json input    
+# Exception handling for Json input
 except json.decoder.JSONDecodeError:
     print("Invalid Json Format")
     sys.exit()
@@ -57,7 +57,7 @@ except NoSuchElementException as selector:
 finally:
     driver.quit()
     
-# API automation script to get the temperatue form the API
+# API automation script to get the temperature form the API
 try:
     response = requests.get(urlApi)
     # access JSOn content
