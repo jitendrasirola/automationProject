@@ -29,7 +29,7 @@ except Exception as jsonToDict:
     sys.exit()
     
 # important paths and urls to run the script
-pathWebDriver = "C://chromedriver.exe"
+pathWebDriver = "C://Users/jayma/PycharmProjects/automationProject/chromedriver.exe"
 webSiteUrl = "https://weather.com/"
 urlApi = "http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={APIkey}".format(cityName=city,APIkey=apiKey)
 driver = webdriver.Chrome(pathWebDriver)
@@ -46,7 +46,7 @@ try:
     WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.ID, 'MainContent')))
     temp = driver.find_element_by_xpath('//*[@data-testid="TemperatureValue"]').text
     ui_temp = int(temp.strip('°'))
-    # print(ui_temp)
+    print(ui_temp)
 
 except ElementNotInteractableException:
     print("Failed to load element: Element not intractable")
@@ -88,10 +88,10 @@ else:
     listTem = [ui_temp, api_temp]
     l_temp = len(listTem) - 1
     avg_temp = sum(listTem) / len(listTem)
-    print(avg_temp)
     v = sum((x - avg_temp) ** 2 for x in listTem)
     variance = v / l_temp
-    if variance / 100 in range(variancePer):
+    print(variance)
+    if variance / 100 <= variancePer:
         print("Success : The temperature is within specified variance percentage range.")
     else:
         raise Exception("The temperature not is within specified variance percentage range.")
