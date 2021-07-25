@@ -12,25 +12,30 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from requests.exceptions import HTTPError
 
+# Provide user imput in json format
 try:
     userInput = input("Please Provide the Json input:")
+    # Extract the json data
     jsonToDict = json.loads(userInput)
     city = (jsonToDict["city"])
     apiKey = (jsonToDict["appid"])
     variancePer = (jsonToDict["variance"]) / 100
+# Exception handeling for Json input    
 except json.decoder.JSONDecodeError:
     print("Invalid Json Format")
     sys.exit()
 except Exception as jsonToDict:
     print(f"Json error: Incorrect keyword:{jsonToDict}")
     sys.exit()
-
-pathWebDriver = "C://Users/jayma/PycharmProjects/automationProject/chromedriver.exe"
+    
+# important paths and urls to run the script
+pathWebDriver = "C://chromedriver.exe"
 webSiteUrl = "https://weather.com/"
 urlApi = "http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={APIkey}".format(cityName=city,APIkey=apiKey)
 driver = webdriver.Chrome(pathWebDriver)
 driver.implicitly_wait(15)
 
+# selenium script to get the temperature from the UI
 try:
     driver.get(webSiteUrl)
     time.sleep(3)
@@ -41,7 +46,7 @@ try:
     WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.ID, 'MainContent')))
     temp = driver.find_element_by_xpath('//*[@data-testid="TemperatureValue"]').text
     ui_temp = int(temp.strip('°'))
-    print(ui_temp)
+    # print(ui_temp)
 
 except ElementNotInteractableException:
     print("Failed to load element: Element not intractable")
@@ -51,7 +56,8 @@ except NoSuchElementException as selector:
     sys.exit()
 finally:
     driver.quit()
-
+    
+# API automation script to get the temperatue form the API
 try:
     response = requests.get(urlApi)
     # access JSOn content
@@ -72,11 +78,13 @@ except HTTPError as http_err:
 except Exception as err:
     print(f'Other error occurred: {err}')
     sys.exit()
-
+    
+# Comparator to compare the temperature of two sources
 if ui_temp == api_temp:
     print('The temperature of ' + city + ' is same in both API and UI')
 else:
     print('The temperature of ' + city + ' is no same in API and UI')
+    # logic to check the variance of data from the two sources
     listTem = [ui_temp, api_temp]
     l_temp = len(listTem) - 1
     avg_temp = sum(listTem) / len(listTem)
@@ -86,5 +94,5 @@ else:
     if variance / 100 in range(variancePer):
         print("Success : The temperature is within specified variance percentage range.")
     else:
-        raise Exception("The temperature not is within specified variance percentage range. ")
+        raise Exception("The temperature not is within specified variance percentage range.")
 sys.exit()
