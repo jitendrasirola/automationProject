@@ -27,8 +27,7 @@ except Exception as jsonToDict:
 
 pathWebDriver = "C://Users/jayma/PycharmProjects/automationProject/chromedriver.exe"
 webSiteUrl = "https://weather.com/"
-urlApi = "http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={APIkey}".format(cityName=city,
-                                                                                             APIkey=apiKey)
+urlApi = "http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={APIkey}".format(cityName=city,APIkey=apiKey)
 driver = webdriver.Chrome(pathWebDriver)
 driver.implicitly_wait(15)
 
