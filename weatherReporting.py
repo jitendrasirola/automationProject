@@ -79,7 +79,7 @@ except Exception as err:
     print(f'Other error occurred: {err}')
     sys.exit()
     
-# Comparator to compare the temperature of two sources
+# Comparatortocompare the temperature of two sources
 if ui_temp == api_temp:
     print('The temperature of ' + city + ' is same in both API and UI')
 else:
